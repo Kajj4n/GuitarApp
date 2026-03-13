@@ -1,5 +1,5 @@
 // CHANGE THIS VERSION NUMBER every time you update your CSS, HTML, or JS!
-const CACHE_NAME = "fishing-v2"; 
+const CACHE_NAME = "fishing-v3"; 
 const ASSETS = ["/", "/index.html", "/style.css", "/app.js", "/manifest.json"];
 
 self.addEventListener("install", (e) => {
