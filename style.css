@@ -165,3 +165,54 @@ button > img{
     object-fit: contain;
     margin-bottom: -20px; /* Sits flush with bottom */
 }
+
+/* --- Responsive Adjustments for Small Screens (Under 400px) --- */
+@media (max-width: 400px) {
+    
+    /* 1. Fix the Top Nav overflow */
+    .top-nav {
+        padding: 20px 15px; /* Reduce side padding */
+        gap: 10px;
+    }
+
+    .nav-btn {
+        width: 100%; /* Let it shrink instead of being locked at 143px */
+        max-width: 143px; 
+        padding: 12px 0;
+        font-size: 11px;
+    }
+
+    /* 2. Squeeze the note display padding slightly */
+    .note-display-wrapper {
+        padding: 0 15px;
+    }
+
+    /* 3. Adjust the Guitar Grid */
+    .guitar-section {
+        /* Reduce the outer columns from 80px to 55px to give the image room */
+        grid-template-columns: 0 1fr 0; 
+        padding: 0 10px 10px 10px;
+    }
+
+    /* 4. Constrain and scale the Guitar Head Image */
+    .guitar-head-wrapper img {
+        max-width: 175px; /* Your requested max width */
+        width: 100%; /* Ensures it shrinks proportionally below 175px */
+    }
+
+    /* 5. Scale down the string buttons slightly to fit the new 55px columns */
+    .string-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 11px;
+        border-width: 2px; /* Slightly thinner border for tiny buttons */
+        margin-left: -19vw;
+        margin-right: -19vw;
+    }
+
+    /* Pull the buttons a bit closer to the image to maintain the ratio */
+    .strings-col {
+        gap: 25px; 
+        padding-bottom: 10.5vh;
+    }
+}
