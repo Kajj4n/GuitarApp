@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Inter';
 }
 
 body {
@@ -11,108 +11,148 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    color: #ffffff;
 }
 
 #app {
     width: 100%;
     max-width: 400px;
-    height: 650px; /* Increased slightly to fit the new buttons */
-    background-color: #1e1e1e;
-    border-radius: 30px;
+    height: 100vh;
+    max-height: 850px;
+    background-color: #FFFDD0; /* Cream background */
+    color: #000;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     display: grid;
-    grid-template-rows: 1fr auto 120px;
-    text-align: center;
+    grid-template-rows: auto auto 1fr; /* 3 Main Rows */
     overflow: hidden;
-    padding-top: 40px;
 }
 
-h1 { color: #4da8da; letter-spacing: 2px; text-transform: uppercase; font-size: 1.2rem; }
+/* --- Row 1: Top Nav --- */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px 10px 20px;
+    gap: 15px;
+}
 
-.tuner-container {
-    padding: 20px 20px 0 20px;
+.nav-btn {
+    flex: 1;
+    background-color: #573737;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 0;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* --- Row 2: Tuner Nav --- */
+.tuner-nav {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding: 20px 0;
+}
+
+.note-display-wrapper {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 30px;
+    margin-bottom: 20px;
+}
+
+.accidental {
+    font-size: 1.5rem;
+    color: #000;
+    opacity: 0.2; /* Dims when not active */
+    transition: opacity 0.2s;
+}
+
+.accidental.active {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.note-center {
+    text-align: center;
 }
 
 #noteDisplay {
     font-size: 5rem;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 20px rgba(77, 168, 218, 0.5);
-}
-
-#statusIndicator {
-    font-size: 1.2rem;
-    color: #888;
-    margin-top: 5px;
+    font-weight: 900;
+    line-height: 1;
+    color: #000;
 }
 
 #frequencyDisplay {
-    font-family: monospace;
-    color: #4da8da;
+    font-size: 1rem;
+    font-weight: 800;
     margin-top: 5px;
-    font-size: 1.1rem;
+    color: #000;
 }
 
-/* --- New String Selectors --- */
-.string-selectors {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 20px 0 30px 0;
-    padding: 0 20px;
+.meter-wrapper {
+    height: 100px;
+    width: 100%;
+    padding: 0 10px;
 }
+
+#meterCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* --- Row 3: Guitar Section --- */
+.guitar-section {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px; /* 3 Columns */
+    padding: 0 10px 20px 10px;
+    align-items: end;
+}
+
+.strings-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 75%;
+    padding-bottom: 40px;
+    gap: 30px;
+}
+
+.left-strings { align-items: flex-end; }
+.right-strings { align-items: flex-start; }
 
 .string-btn {
-    background-color: #2a2a2a;
-    color: #888;
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 10px 0;
-    flex: 1;
-    font-size: 1rem;
-    font-weight: bold;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #573737;
+    color: #fff;
+    border: 3px solid #573737; /* Base border matches background */
+    font-weight: 800;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s;
 }
-
-.string-btn:hover { background-color: #333; }
 
 .string-btn.active {
-    background-color: #4da8da;
-    color: #fff;
-    border-color: #4da8da;
-    box-shadow: 0 0 10px rgba(77, 168, 218, 0.4);
+    border-color: #000; /* Dark ring when selected */
+    transform: scale(1.1);
 }
 
-.input-group { padding: 0 20px; }
+.guitar-head-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+}
 
-#startBtn {
+.guitar-head-wrapper img {
     width: 100%;
-    padding: 15px;
-    border-radius: 50px;
-    background-color: #4da8da;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-#startBtn:active { transform: scale(0.98); }
-
-#tunerNav {
-    position: relative;
-    background: #151515;
-    border-top: 1px solid #333;
-}
-#meterCanvas { 
-    width: 100%; 
-    height: 100%; 
-    display: block; /* This stops the infinite growing loop */
+    max-width: 180px;
+    object-fit: contain;
+    margin-bottom: -20px; /* Sits flush with bottom */
 }

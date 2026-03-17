@@ -5,35 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StringTune - Guitar Tuner</title>
     <link rel="stylesheet" href="./style.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
 </head>
 <body>
     <div id="app">
-        <div id="screen">
-            <h1>StringTune</h1>
-            <div class="tuner-container">
-                <div id="noteDisplay">-</div>
-                <div id="statusIndicator">Ready</div>
-                <div id="frequencyDisplay">0.00 Hz</div>
+        
+        <div class="top-nav">
+            <button class="nav-btn active">Standard </button>
+            <button class="nav-btn">Chord Book</button>
+        </div>
+
+        <div class="tuner-nav">
+            <div class="note-display-wrapper">
+                <div class="accidental" id="flatIcon">&#9837;</div>
+                <div class="note-center">
+                    <div id="noteDisplay">E</div>
+                    <div id="frequencyDisplay">-- HZ</div>
+                </div>
+                <div class="accidental" id="sharpIcon">&#9839;</div>
             </div>
 
-            <div class="string-selectors">
-                <button class="string-btn active" data-note="Auto">Auto</button>
-                <button class="string-btn" data-note="E2">E</button>
-                <button class="string-btn" data-note="A2">A</button>
-                <button class="string-btn" data-note="D3">D</button>
-                <button class="string-btn" data-note="G3">G</button>
-                <button class="string-btn" data-note="B3">B</button>
-                <button class="string-btn" data-note="E4">e</button>
-            </div>
-            
-            <div class="input-group">
-                <button id="startBtn">Start Tuner</button>
+            <div class="meter-wrapper">
+                <canvas id="meterCanvas"></canvas>
             </div>
         </div>
 
-        <nav id="tunerNav">
-            <canvas id="meterCanvas"></canvas>
-        </nav>
+        <div class="guitar-section">
+            <div class="strings-col left-strings">
+                <button class="string-btn" data-note="D3">D</button>
+                <button class="string-btn" data-note="A2">A</button>
+                <button class="string-btn active" data-note="E2">E</button> 
+            </div>
+            
+            <div class="guitar-head-wrapper">
+                <img src="./images/guitarhead.png" alt="Guitar Head">
+            </div>
+            
+            <div class="strings-col right-strings">
+                <button class="string-btn" data-note="G3">G</button>
+                <button class="string-btn" data-note="B3">B</button>
+                <button class="string-btn" data-note="E4">E</button>
+            </div>
+        </div>
+
     </div>
     <script src="app.js"></script>
 </body>

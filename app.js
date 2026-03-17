@@ -4,7 +4,7 @@ class GuitarTuner {
         this.analyser = null;
         this.dataArray = null;
         this.isRunning = false;
-        this.selectedMode = 'Auto'; // New state tracker
+        this.selectedMode = 'E2'; // Set default string to E
 
         this.standardTuning = [
             { note: 'E2', freq: 82.41 },
@@ -18,45 +18,58 @@ class GuitarTuner {
         this.ui = {
             note: document.getElementById('noteDisplay'),
             freq: document.getElementById('frequencyDisplay'),
-            status: document.getElementById('statusIndicator'),
             canvas: document.getElementById('meterCanvas'),
-            startBtn: document.getElementById('startBtn'),
-            stringBtns: document.querySelectorAll('.string-btn') // Grab the new buttons
+            flatIcon: document.getElementById('flatIcon'),
+            sharpIcon: document.getElementById('sharpIcon'),
+            stringBtns: document.querySelectorAll('.string-btn'),
+            standardBtn: document.querySelector('.nav-btn.active')
         };
 
         this.ctx = this.ui.canvas.getContext('2d');
         this.currentCents = 0;
-
-        this.ui.startBtn.addEventListener('click', () => this.toggleTuner());
         
         // Setup listeners for string selection
         this.ui.stringBtns.forEach(btn => {
             btn.addEventListener('click', (e) => this.selectString(e.target));
         });
+
+        // Click "Standard" to reset to Auto mode if desired
+        this.ui.standardBtn.addEventListener('click', () => {
+            this.ui.stringBtns.forEach(b => b.classList.remove('active'));
+            this.selectedMode = 'Auto';
+            this.ui.note.textContent = "-";
+            this.ui.freq.textContent = "-- HZ";
+            if (!this.isRunning) this.startTuner();
+        });
+
+        this.drawMeter(); // Draw initial static canvas
     }
 
     selectString(btnTarget) {
-        // Update UI styling
+        // Update styling
         this.ui.stringBtns.forEach(btn => btn.classList.remove('active'));
         btnTarget.classList.add('active');
-
-        // Update internal state
+        
+        // Set internal state
         this.selectedMode = btnTarget.dataset.note;
         
-        // Reset display if the tuner isn't actively running
+        // Start tuner if it isn't already running
         if (!this.isRunning) {
-            this.ui.note.textContent = this.selectedMode === 'Auto' ? '-' : this.selectedMode.replace(/[0-9]/g, '');
+            this.startTuner();
+        } else {
+            // If already running, immediately show the target note UI
+            const targetNoteObj = this.standardTuning.find(n => n.note === this.selectedMode);
+            this.ui.note.textContent = targetNoteObj.note.replace(/[0-9]/g, '');
+            this.ui.freq.textContent = "-- HZ";
+            this.currentCents = 0; // Reset needle
+            this.ui.flatIcon.classList.remove('active');
+            this.ui.sharpIcon.classList.remove('active');
+            this.drawMeter();
         }
     }
 
-    async toggleTuner() {
-        if (this.isRunning) {
-            this.audioCtx.close();
-            this.isRunning = false;
-            this.ui.startBtn.textContent = "Start Tuner";
-            this.ui.status.textContent = "Ready";
-            return;
-        }
+    async startTuner() {
+        if (this.isRunning) return;
 
         try {
             this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -69,10 +82,9 @@ class GuitarTuner {
 
             this.dataArray = new Float32Array(this.analyser.fftSize);
             this.isRunning = true;
-            this.ui.startBtn.textContent = "Stop Tuner";
             this.update();
         } catch (err) {
-            alert("Microphone access denied or not available.");
+            alert("Microphone access denied. Please allow microphone permissions to tune.");
         }
     }
 
@@ -83,33 +95,20 @@ class GuitarTuner {
         const pitch = this.autoCorrelate(this.dataArray, this.audioCtx.sampleRate);
 
         if (pitch !== -1) {
-            let targetNoteObj;
-
-            // Decide whether to auto-detect or force the selected string
-            if (this.selectedMode === 'Auto') {
-                targetNoteObj = this.getClosestNote(pitch);
-            } else {
-                targetNoteObj = this.standardTuning.find(n => n.note === this.selectedMode);
-            }
+            let targetNoteObj = this.selectedMode === 'Auto' 
+                ? this.getClosestNote(pitch) 
+                : this.standardTuning.find(n => n.note === this.selectedMode);
 
             const cents = this.getCents(pitch, targetNoteObj.freq);
             
-            // Only update display if the detected pitch is somewhat close (within an octave) 
-            // to the target string to prevent wild jumps on background noise
             if (this.selectedMode === 'Auto' || Math.abs(cents) < 1200) {
                 this.ui.note.textContent = targetNoteObj.note.replace(/[0-9]/g, '');
-                this.ui.freq.textContent = `${pitch.toFixed(2)} Hz`;
+                this.ui.freq.textContent = `${Math.round(pitch)} HZ`;
                 
-                // Clamp cents for the visual meter between -50 and 50
-                this.currentCents = Math.max(-50, Math.min(50, cents));
+                this.currentCents = Math.max(-100, Math.min(100, cents));
 
-                if (Math.abs(cents) < 5) {
-                    this.ui.status.textContent = "In Tune";
-                    this.ui.status.style.color = "#47cf73";
-                } else {
-                    this.ui.status.textContent = cents > 0 ? "Sharp" : "Flat";
-                    this.ui.status.style.color = "#ff4a4a";
-                }
+                this.ui.flatIcon.classList.toggle('active', cents <= -5);
+                this.ui.sharpIcon.classList.toggle('active', cents >= 5);
             }
         }
 
@@ -160,34 +159,58 @@ class GuitarTuner {
     drawMeter() {
         const width = this.ui.canvas.width = this.ui.canvas.offsetWidth;
         const height = this.ui.canvas.height = this.ui.canvas.offsetHeight;
+        const ctx = this.ctx;
+        const centerY = height / 2;
         const centerX = width / 2;
 
-        this.ctx.clearRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height);
 
-        // Draw static scale
-        this.ctx.strokeStyle = "#444";
-        this.ctx.lineWidth = 2;
-        for (let i = -50; i <= 50; i += 10) {
-            const x = centerX + (i * (width / 120));
-            this.ctx.beginPath();
-            this.ctx.moveTo(x, height - 20);
-            this.ctx.lineTo(x, height - (i === 0 ? 50 : 35));
-            this.ctx.stroke();
+        ctx.strokeStyle = "#573737";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.font = "bold 12px sans-serif";
+
+        const edgeScale = 100; 
+        const maxDrawWidth = width / 2 - 20;
+
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - 30);
+        ctx.lineTo(centerX, centerY + 15);
+        ctx.stroke();
+
+        ctx.lineWidth = 2;
+        const ticks = [20, 40, 60, 80];
+        ticks.forEach(tick => {
+            const offset = (tick / edgeScale) * maxDrawWidth;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX + offset, centerY);
+            ctx.lineTo(centerX + offset, centerY + 15);
+            ctx.stroke();
+            ctx.fillText(tick, centerX + offset, centerY + 32);
+
+            ctx.beginPath();
+            ctx.moveTo(centerX - offset, centerY);
+            ctx.lineTo(centerX - offset, centerY + 15);
+            ctx.stroke();
+            ctx.fillText(tick, centerX - offset, centerY + 32);
+        });
+
+        const offset80 = (80 / edgeScale) * maxDrawWidth;
+        ctx.font = "bold 18px sans-serif";
+        ctx.fillText("-", centerX - offset80, centerY - 15);
+        ctx.fillText("+", centerX + offset80, centerY - 15);
+
+        if (this.isRunning) {
+            const needleX = centerX + (this.currentCents / edgeScale) * maxDrawWidth;
+            ctx.strokeStyle = Math.abs(this.currentCents) < 5 ? "#47cf73" : "#000"; 
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(needleX, centerY - 40);
+            ctx.lineTo(needleX, centerY + 15);
+            ctx.stroke();
         }
-
-        // Draw Needle
-        const needleX = centerX + (this.currentCents * (width / 120));
-        const color = Math.abs(this.currentCents) < 5 ? "#47cf73" : "#ff4a4a";
-        
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = color;
-        this.ctx.strokeStyle = color;
-        this.ctx.lineWidth = 4;
-        this.ctx.beginPath();
-        this.ctx.moveTo(needleX, height - 10);
-        this.ctx.lineTo(needleX, 20);
-        this.ctx.stroke();
-        this.ctx.shadowBlur = 0;
     }
 }
 
