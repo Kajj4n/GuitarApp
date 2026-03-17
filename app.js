@@ -153,66 +153,97 @@ class GuitarTuner {
     }
 
     drawMeter() {
-        const width = this.ui.canvas.width = this.ui.canvas.offsetWidth;
-        const height = this.ui.canvas.height = this.ui.canvas.offsetHeight;
-        const ctx = this.ctx;
-        const centerY = height / 2;
-        const centerX = width / 2;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = this.ui.canvas.getBoundingClientRect();
+    
+    if (this.ui.canvas.width !== rect.width * dpr) {
+        this.ui.canvas.width = rect.width * dpr;
+        this.ui.canvas.height = rect.height * dpr;
+    }
 
-        ctx.clearRect(0, 0, width, height);
+    const width = rect.width;
+    const height = rect.height;
+    const ctx = this.ctx;
 
-        ctx.strokeStyle = "#573737";
-        ctx.fillStyle = "#000";
-        ctx.textAlign = "center";
-        ctx.font = "bold 12px sans-serif";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    // We set a 'baseline' for the ticks. 
+    // This leaves just enough room for numbers below and the needle above.
+    const baselineY = height - 45; 
+    const centerX = width / 2;
+
+    ctx.lineCap = "round"; 
+    ctx.lineJoin = "round";
+
+    // --- Spread & Scale Logic ---
+    const edgeScale = 78; 
+    const maxDrawWidth = width / 2 - 40; 
+
+    // 2. Draw Taller Center Tick (Target)
+    // Height: From baseline - 90px to baseline + 15px
+    ctx.strokeStyle = "#573737"; 
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(centerX, baselineY - 80); 
+    ctx.lineTo(centerX, baselineY + 15);
+    ctx.stroke();
+
+    // 3. Draw Side Ticks and Numbers
+    ctx.lineWidth = 2;
+    ctx.textAlign = "center";
+
+    const ticks = [20, 40, 60, 80];
+    let offset80 = 0; 
+
+    ticks.forEach(tick => {
+        const offset = (tick / edgeScale) * maxDrawWidth;
+        if (tick === 80) offset80 = offset;
         
-        // 1. Give all lines round edges
-        ctx.lineCap = "round"; 
-
-        // 2. Spread the ticks out more by adjusting the scale and max width
-        const edgeScale = 90; 
-        const maxDrawWidth = width / 2 - 15; 
-
-        // 3. Draw a taller center tick
-        ctx.lineWidth = 3;
+        // Draw Ticks (Burgundy)
+        ctx.strokeStyle = "#573737";
         ctx.beginPath();
-        ctx.moveTo(centerX, centerY - 60); // Stretches higher up
-        ctx.lineTo(centerX, centerY + 15);
+        ctx.moveTo(centerX + offset, baselineY - 5);
+        ctx.lineTo(centerX + offset, baselineY + 10);
+        ctx.moveTo(centerX - offset, baselineY - 5);
+        ctx.lineTo(centerX - offset, baselineY + 10);
         ctx.stroke();
 
-        ctx.lineWidth = 2;
-        const ticks = [20, 40, 60, 80];
-        ticks.forEach(tick => {
-            const offset = (tick / edgeScale) * maxDrawWidth;
-            
-            ctx.beginPath();
-            ctx.moveTo(centerX + offset, centerY);
-            ctx.lineTo(centerX + offset, centerY + 15);
-            ctx.stroke();
-            ctx.fillText(tick, centerX + offset, centerY + 35); // Shifted text slightly down to match
+        // Draw Numbers (Black)
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 12px sans-serif";
+        ctx.fillText(tick, centerX + offset, baselineY + 30);
+        ctx.fillText(tick, centerX - offset, baselineY + 30);
+    });
 
-            ctx.beginPath();
-            ctx.moveTo(centerX - offset, centerY);
-            ctx.lineTo(centerX - offset, centerY + 15);
-            ctx.stroke();
-            ctx.fillText(tick, centerX - offset, centerY + 35);
-        });
+    // 4. Position +/- Signs (Black, directly above the 80 ticks)
+    ctx.fillStyle = "#000000";
+    ctx.font = "bold 20px sans-serif";
+    // Placed higher up the needle's length
+    ctx.fillText("-", centerX - offset80, baselineY - 20);
+    ctx.fillText("+", centerX + offset80, baselineY - 20);
 
-        const offset80 = (80 / edgeScale) * maxDrawWidth;
-        ctx.font = "bold 18px sans-serif";
-        ctx.fillText("-", centerX - offset80, centerY - 20); // Lifted +/- signs up
-        ctx.fillText("+", centerX + offset80, centerY - 20);
-
-        if (this.isRunning) {
-            const needleX = centerX + (this.currentCents / edgeScale) * maxDrawWidth;
-            ctx.strokeStyle = Math.abs(this.currentCents) < 5 ? "#47cf73" : "#000"; 
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(needleX, centerY - 60); // Needle height matches new center tick
-            ctx.lineTo(needleX, centerY + 15);
+    // 5. Draw Dynamic Needle
+    if (this.isRunning) {
+        const needleX = centerX + (this.currentCents / edgeScale) * maxDrawWidth;
+        
+        ctx.strokeStyle = Math.abs(this.currentCents) < 5 ? "#47cf73" : "#573737"; 
+        ctx.lineWidth = 5; 
+        
+        ctx.beginPath();
+        // Needle top and bottom now match the Target line perfectly
+        ctx.moveTo(needleX, baselineY - 90); 
+        ctx.lineTo(needleX, baselineY + 15);
+        ctx.stroke();
+        
+        if (Math.abs(this.currentCents) < 5) {
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "#47cf73";
             ctx.stroke();
+            ctx.shadowBlur = 0; 
         }
     }
+}
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -70,7 +70,6 @@ button > img{
     justify-content: space-between;
     align-items: center;
     padding: 0 30px;
-    margin-bottom: 20px;
 }
 
 .accidental {
@@ -97,10 +96,13 @@ button > img{
     color: #000;
 }
 
+/* Update this in your style.css */
 .meter-wrapper {
-    height: 100px;
     width: 100%;
-    padding: 0 10px;
+    height: 150px; /* Reduced from 200px/Auto to a tight 150px */
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden; /* Ensures no scrollbars if needle moves */
 }
 
 #meterCanvas {
@@ -121,7 +123,7 @@ button > img{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding-bottom: 85px;
+    padding-bottom: 11.5vh;
     gap: 30px;
 }
 
@@ -159,8 +161,7 @@ button > img{
 }
 
 .guitar-head-wrapper img {
-    width: 100%;
-    max-width: 200px;
+    max-width: 25.5vw;
     object-fit: contain;
     margin-bottom: -20px; /* Sits flush with bottom */
 }
