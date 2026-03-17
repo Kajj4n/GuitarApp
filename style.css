@@ -15,14 +15,16 @@ body {
 
 #app {
     width: 100%;
-    height: 100%;
+    /* Use min-height and a safer height for mobile */
+    height: 100vh; 
+    height: 100dvh; /* Dynamic viewport height handles browser bars better */
     max-width: 400px;
-    height: 100vh;
-    background-color: #FFFDD0; /* Cream background */
+    background-color: #FFFDD0;
     color: #000;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     display: grid;
-    grid-template-rows: max-content  auto max-content; /* 3 Main Rows */
+    /* Changed: middle section (Tuner) should be the flexible '1fr' */
+    grid-template-rows: max-content 1fr max-content; 
     overflow: hidden;
 }
 
@@ -57,12 +59,11 @@ button > img{
 
 }
 
-/* --- Row 2: Tuner Nav --- */
 .tuner-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 30px 0;
+    padding: 10px 0; /* Reduced from 30px */
 }
 
 .note-display-wrapper {
@@ -168,55 +169,36 @@ button > img{
 
 /* --- Responsive Adjustments for Small Screens (Under 400px) --- */
 @media (max-width: 400px) {
-    
-    #app{
-      grid-template-rows: 1fr max-content max-content;
-
+    #app {
+        /* Row 2 (Tuner) stays flexible, others stay tight */
+        grid-template-rows: max-content 1fr max-content;
     }
-    /* 1. Fix the Top Nav overflow */
+
     .top-nav {
-        padding: 25px 15px 0 15px; /* Reduce side padding */
-        gap: 10px;
+        padding: 15px 15px 5px 15px; /* Less top padding */
     }
 
-    .nav-btn {
-        width: 100%; /* Let it shrink instead of being locked at 143px */
-        max-width: 143px; 
-        padding: 12px 0;
-        font-size: 11px;
+    .tuner-nav {
+        padding: 5px 0; /* Very tight spacing for small screens */
     }
 
-    /* 2. Squeeze the note display padding slightly */
-    .note-display-wrapper {
-        padding: 0 15px;
+    .meter-wrapper {
+        height: 120px; /* Shorter meter */
     }
 
-    /* 3. Adjust the Guitar Grid */
     .guitar-section {
-        /* Reduce the outer columns from 80px to 55px to give the image room */
         grid-template-columns: 0 1fr 0; 
-        padding: 0 10px 10px 10px;
+        padding: 0 10px 0 10px; /* Removed bottom padding */
     }
 
-    /* 4. Constrain and scale the Guitar Head Image */
-    .guitar-head-wrapper img {
-        max-width: 175px; /* Your requested max width */
-        width: 100%; /* Ensures it shrinks proportionally below 175px */
-    }
-
-    /* 5. Scale down the string buttons slightly to fit the new 55px columns */
-    .string-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 11px;
-        border-width: 2px; /* Slightly thinner border for tiny buttons */
-        margin-left: -19vw;
-        margin-right: -19vw;
-    }
-
-    /* Pull the buttons a bit closer to the image to maintain the ratio */
     .strings-col {
-        gap: 25px; 
-        padding-bottom: 80px;
+        gap: 15px; /* Tighter button vertical spacing */
+        padding-bottom: 60px; /* Reduced to bring buttons down */
+    }
+
+    .guitar-head-wrapper img {
+        max-width: 175px;
+        /* Pulling the image down slightly less so it doesn't clip */
+        margin-bottom: -10px; 
     }
 }
