@@ -201,8 +201,6 @@ button > img{
 
     /* 5. Scale down the string buttons slightly to fit the new 55px columns */
     .string-btn {
-        width: 38px;
-        height: 38px;
         font-size: 11px;
         border-width: 2px; /* Slightly thinner border for tiny buttons */
         margin-left: -19vw;
