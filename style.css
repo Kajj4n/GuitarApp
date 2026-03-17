@@ -203,13 +203,13 @@ button > img{
     .string-btn {
         font-size: 11px;
         border-width: 2px; /* Slightly thinner border for tiny buttons */
-        margin-left: -19vw;
-        margin-right: -19vw;
+        margin-left: -16vw;
+        margin-right: -16vw;
     }
 
     /* Pull the buttons a bit closer to the image to maintain the ratio */
     .strings-col {
         gap: 25px; 
-        padding-bottom: 80px;
+        padding-bottom: 90px;
     }
 }
