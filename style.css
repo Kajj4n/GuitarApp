@@ -218,4 +218,9 @@ button > img{
         gap: 25px; 
         padding-bottom: 90px;
     }
+
+    .note-row {
+    padding: 0; /* Moved the padding here from the old wrapper */
+}
+    
 }
