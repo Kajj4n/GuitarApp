@@ -123,7 +123,7 @@ button > img{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding-bottom: 11.5vh;
+    padding-bottom: 85px;
     gap: 30px;
 }
 
@@ -169,10 +169,7 @@ button > img{
 /* --- Responsive Adjustments for Small Screens (Under 400px) --- */
 @media (max-width: 400px) {
     
-    #app{
-      grid-template-rows: auto max-content 1fr;
 
-    }
     /* 1. Fix the Top Nav overflow */
     .top-nav {
         padding: 25px 15px 0 15px; /* Reduce side padding */
