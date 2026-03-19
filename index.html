@@ -11,7 +11,7 @@
     <div id="app">
 
         <div class="top-nav">
-            <button class="nav-btn active">E-Standard <img src="./images/note.png" alt="note"> </button>
+            <button id="open-tune-btn" class="nav-btn active">E-Standard<img src="./images/note.png" alt="note"> </button>
             <button class="nav-btn">Chord Book <img src="./images/chordbook.png" alt="chordbook"></button>
         </div>
 
@@ -49,6 +49,13 @@
             </div>
         </div>
 
+        <div id="tune-page">
+            <nav id="return-nav">
+                <button id="close-tune-btn">←</button>
+                <h2>Select Tuning</h2>
+            </nav>
+            <div id="tuning-list-container"></div>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>

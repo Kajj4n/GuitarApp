@@ -1,0 +1,84 @@
+#tune-page {
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background-color: #FFFDD0; /* Changed from red to match main app */
+    position: absolute;
+    top: 0;
+    right: -100%; /* Start entirely off-screen to the right */
+    opacity: 0;   /* Start faded out */
+    transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    z-index: 10;
+}
+
+/* When active, slide in and fade in */
+#tune-page.active {
+    right: 0;
+    opacity: 1;
+}
+
+/* Basic styling for the back button and header */
+#return-nav {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    gap: 15px;
+}
+
+#close-tune-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000;
+}
+
+
+#tuning-list-container {
+    padding: 0 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+}
+
+.tuning-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.tuning-info .tuning-name {
+    display: block;
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.tuning-info .tuning-notes {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.radio-circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #573737;
+    border-radius: 50%;
+    position: relative;
+}
+
+.tuning-item.selected .radio-circle::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #573737;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

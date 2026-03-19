@@ -1,0 +1,241 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter';
+}
+
+body {
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background-color: #FFFDD0; /* Cream background */
+    color: #000;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    display: grid;
+    grid-template-rows: max-content  auto max-content; /* 3 Main Rows */
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Animation Classes for Main App Elements --- */
+.top-nav, .tuner-nav, .guitar-section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* When this class is added to #app, the main elements fade out */
+#app.hide-main > .top-nav,
+#app.hide-main > .tuner-nav,
+#app.hide-main > .guitar-section {
+    opacity: 0;
+    pointer-events: none; /* Prevents clicking invisible buttons */
+}
+
+/* --- Row 1: Top Nav --- */
+.top-nav {
+    display: flex;
+    padding: 30px;
+    gap: 15px;
+    justify-content: space-around;
+}
+
+.nav-btn {
+    width: 143px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #573737;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 0;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+button > img{
+    height: 15px;
+    margin-left: 10px;
+
+}
+
+/* --- Row 2: Tuner Nav --- */
+.tuner-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.note-display-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.note-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 30px; /* Moved the padding here from the old wrapper */
+}
+
+.accidental {
+    font-size: 1.5rem;
+    color: #000;
+}
+
+
+.note-center {
+    text-align: center;
+}
+
+#noteDisplay {
+    font-size: 44px;
+    font-weight: 900;
+    color: #000;
+    -webkit-text-stroke: 1.5px #000;
+}
+
+#frequencyDisplay {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-top: 5px;
+    color: #000;
+}
+
+/* Update this in your style.css */
+.meter-wrapper {
+    width: 100%;
+    height: 150px; /* Reduced from 200px/Auto to a tight 150px */
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden; /* Ensures no scrollbars if needle moves */
+}
+
+#meterCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* --- Row 3: Guitar Section --- */
+.guitar-section {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px; /* 3 Columns */
+    padding: 0 10px 20px 10px;
+    align-items: end;
+}
+
+.strings-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-bottom: 85px;
+    gap: 30px;
+}
+
+.left-strings { align-items: flex-end; }
+.right-strings { align-items: flex-start; }
+
+
+#sharpIcon{
+    font-size: 20px;
+}
+
+.string-btn {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    background-color: #573737;
+    color: #fff;
+    border: 3px solid #573737; /* Base border matches background */
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+
+.string-btn.active {
+    border-color: #000; /* Dark ring when selected */
+    transform: scale(1.1);
+}
+
+.guitar-head-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.guitar-head-wrapper img {
+    max-width: 200px;
+    object-fit: contain;
+    margin-bottom: -20px; /* Sits flush with bottom */
+}
+
+/* --- Responsive Adjustments for Small Screens (Under 400px) --- */
+@media (max-width: 400px) {
+    
+
+    /* 1. Fix the Top Nav overflow */
+    .top-nav {
+        padding: 25px 15px 0 15px; /* Reduce side padding */
+        gap: 10px;
+    }
+
+    .nav-btn {
+        width: 100%; /* Let it shrink instead of being locked at 143px */
+        max-width: 143px; 
+        padding: 12px 0;
+        font-size: 11px;
+    }
+
+    /* 2. Squeeze the note display padding slightly */
+    .note-display-wrapper {
+        padding: 0 30px;
+    }
+
+    /* 3. Adjust the Guitar Grid */
+    .guitar-section {
+        /* Reduce the outer columns from 80px to 55px to give the image room */
+        grid-template-columns: 0 1fr 0; 
+        padding: 0 10px 10px 10px;
+    }
+
+
+    /* 5. Scale down the string buttons slightly to fit the new 55px columns */
+    .string-btn {
+        font-size: 11px;
+        border-width: 2px; /* Slightly thinner border for tiny buttons */
+        margin-left: -16vw;
+        margin-right: -16vw;
+        z-index: 100;
+    }
+
+    /* Pull the buttons a bit closer to the image to maintain the ratio */
+    .strings-col {
+        gap: 25px; 
+        padding-bottom: 90px;
+    }
+
+    .note-row {
+    padding: 0; /* Moved the padding here from the old wrapper */
+}
+    
+}

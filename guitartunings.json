@@ -1,0 +1,73 @@
+{
+  "guitarTunings": [
+    {
+      "name": "Standard",
+      "notes": ["E2", "A2", "D3", "G3", "B3", "E4"],
+      "frequencies": [82.41, 110.00, 146.83, 196.00, 246.94, 329.63],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+    },
+    {
+      "name": "Drop D",
+      "notes": ["D2", "A2", "D3", "G3", "B3", "E4"],
+      "frequencies": [73.42, 110.00, 146.83, 196.00, 246.94, 329.63],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "DADGAD",
+      "notes": ["D2", "A2", "D3", "G3", "A3", "D4"],
+      "frequencies": [73.42, 110.00, 146.83, 196.00, 220.00, 293.66],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Open G",
+      "notes": ["D2", "G2", "D3", "G3", "B3", "D4"],
+      "frequencies": [73.42, 98.00, 146.83, 196.00, 246.94, 293.66],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Open D",
+      "notes": ["D2", "A2", "D3", "Gb3", "A3", "D4"],
+      "frequencies": [73.42, 110.00, 146.83, 185.00, 220.00, 293.66],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Drop C",
+      "notes": ["C2", "G2", "C3", "F3", "A3", "D4"],
+      "frequencies": [65.41, 98.00, 130.81, 174.61, 220.00, 293.66],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Eb Standard",
+      "notes": ["Eb2", "Ab2", "Db3", "Gb3", "Bb3", "Eb4"],
+      "frequencies": [77.78, 103.83, 138.59, 185.00, 233.08, 311.13],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Open E",
+      "notes": ["E2", "B2", "E3", "Ab3", "B3", "E4"],
+      "frequencies": [82.41, 123.47, 164.81, 207.65, 246.94, 329.63],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Drop B",
+      "notes": ["B1", "Gb2", "B2", "E3", "Ab3", "Db4"],
+      "frequencies": [61.74, 92.50, 123.47, 164.81, 207.65, 277.18],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    },
+    {
+      "name": "Open A",
+      "notes": ["E2", "A2", "E3", "A3", "Db4", "E4"],
+      "frequencies": [82.41, 110.00, 164.81, 220.00, 277.18, 329.63],
+      "audio": ["./audio/E-standard.mp3", "./audio/A-standard.mp3", "./audio/D-standard.mp3", "./audio/G-standard.mp3", "./audio/B-standard.mp3", "./audio/E-standard.mp3"]
+
+    }
+  ]
+}
