@@ -87,17 +87,6 @@ class App {
             'close-tune-btn'         // Exact ID for button
         );
 
-        this.chordMenu = new OverlayPage(
-            'chord-page', 
-            'Chord Book', 
-            () => {
-                this.chordMenu.hide();
-                this.appContainer.classList.remove('hide-main');
-            },
-            'chord-list-container',
-            'close-chord-btn'
-        );
-
         // 2. Initialize the Guitar Section first
         this.guitarSection = new GuitarSection((note) => {
             if (this.selectedMode === note) {
@@ -142,7 +131,6 @@ class App {
         
         this.guitarSection.mount(this.appContainer);
         this.tuningMenu.mount(this.appContainer);
-        this.chordMenu.mount(this.appContainer);
 
         // Connect Canvas & Refs
         this.meter = new MeterCanvas(document.getElementById('meterCanvas'));
