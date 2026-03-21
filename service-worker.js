@@ -1,5 +1,5 @@
 // CHANGE THIS VERSION NUMBER every time you update your CSS, HTML, or JS!
-const CACHE_NAME = "guitar-v43"; 
+const CACHE_NAME = "guitar-v44"; 
 const ASSETS = ["/", "/index.html", "/style.css", "/App.js", "/manifest.json"];
 
 self.addEventListener("install", (e) => {

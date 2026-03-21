@@ -3,7 +3,7 @@ import { ActionButton } from './NavBtn.js';
 import { GuitarSection } from './GuitarSection.js';
 import { AudioEngine } from './AudioEngine.js';
 import { MeterCanvas } from './MeterCanvas.js';
-import { OverlayPage } from './OverlayPage.js'; // Import the new component
+import { OverlayPage } from './OverlayPage.js';
 
 class App {
     constructor() {
@@ -76,7 +76,6 @@ class App {
     }
 
     initUI() {
-        // 1. Create Overlays with EXACT IDs from your old HTML
         this.tuningMenu = new OverlayPage(
             'tune-page', 
             'Select Tuning', 
@@ -99,7 +98,7 @@ class App {
             'close-chord-btn'
         );
 
-        // 2. Initialize the Guitar Section first so we can update its buttons
+        // 2. Initialize the Guitar Section first
         this.guitarSection = new GuitarSection((note) => {
             if (this.selectedMode === note) {
                 this.selectedMode = 'Auto';
@@ -119,13 +118,7 @@ class App {
         });
 
         const topNav = new UIComponent('div', { className: 'top-nav' }, [
-            this.tuningBtn,
-            new ActionButton('Chord Book ', 'nav-btn', './images/chordbook.png', (e) => {
-                e.stopPropagation();
-                this.appContainer.classList.add('hide-main');
-                this.chordMenu.show();
-                if (this.chordMenu.getContentContainer().innerHTML === '') this.loadChords();
-            })
+            this.tuningBtn
         ]);
 
         // Mount everything
