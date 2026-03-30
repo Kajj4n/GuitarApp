@@ -3,7 +3,6 @@ import { UIComponent } from './UIComponent.js';
 
 export class OverlayPage extends UIComponent {
     constructor(id, title, onClose, contentId, closeBtnId) {
-        // Use the ID provided (e.g., 'tune-page')
         super('div', { id: id });
         
         this.element.innerHTML = `
@@ -18,7 +17,7 @@ export class OverlayPage extends UIComponent {
     }
 
     getContentContainer() {
-        // Find the specific container by the ID we passed in
+        // Find the specific container by the ID 
         return this.element.querySelector('div[id$="-container"]');
     }
 

@@ -1,15 +1,20 @@
 {
-    "name": "Guitar tuner",
+    "name": "Guitar Tuner",
     "short_name": "GuitarTune",
     "start_url": "./index.html",
     "display": "standalone",
-    "background_color": "#f0f0f0",
-    "theme_color": "#0077be",
+    "background_color": "#FFFDD0",
+    "theme_color": "#573737",
     "icons": [
         {
-            "src": "https://via.placeholder.com/192",
+            "src": "./images/guitarhead.png",
             "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./images/guitarhead.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ]
-} 
+}

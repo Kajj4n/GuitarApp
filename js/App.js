@@ -34,7 +34,7 @@ class App {
 
     async loadTunings() {
         try {
-            const response = await fetch('./guitartunings.json');
+            const response = await fetch('../guitartunings.json');
             const data = await response.json();
             this.tuningsData = data.guitarTunings;
             // Default to Standard Tuning

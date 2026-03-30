@@ -40,10 +40,11 @@ export class GuitarSection extends UIComponent {
 
     createStringBtn(label, noteValue) {
         const btn = new ActionButton(label, 'string-btn', null, (e) => {
-            this.handleStringSelection(e.target, noteValue);
+            const currentNote = btn.element.dataset.note;
+            this.handleStringSelection(btn.element, currentNote);
         });
         
-        // Store data-note attribute
+        // Store initial data-note attribute
         btn.element.dataset.note = noteValue;
         this.stringButtons.push(btn.element);
         

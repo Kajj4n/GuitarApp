@@ -2,17 +2,17 @@ export class MeterCanvas {
     constructor(canvasElement) {
         this.canvas = canvasElement;
         this.ctx = this.canvas.getContext('2d');
-        this.currentCents = 0;    // The smoothed value we draw
-        this.targetCents = 0;     // The raw value from the engine
+        this.currentCents = 0;    // The smoothed value 
+        this.targetCents = 0;     // The value from the engine
         this.isRunning = false;
-        this.lerpFactor = 0.15;   // Adjust this (0.05 is slow/smooth, 0.3 is fast/jumpy)
+        this.lerpFactor = 0.15;   // (smoothness)
     }
 
     updateCents(cents, isRunning) {
         this.targetCents = cents;
         this.isRunning = isRunning;
         
-        // Apply Linear Interpolation: Current = Current + (Target - Current) * Factor
+        //  Current = Current + (Target - Current) * Factor
         if (this.isRunning) {
             this.currentCents += (this.targetCents - this.currentCents) * this.lerpFactor;
         } else {
@@ -63,7 +63,7 @@ export class MeterCanvas {
             ctx.stroke();
         });
 
-        // The Smooth Moving Needle
+        // Moving Needle
         const needleX = centerX + (this.currentCents / edgeScale) * maxDrawWidth;
         
         // Color changes based on the smoothed value

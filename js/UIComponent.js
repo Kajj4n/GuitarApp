@@ -1,9 +1,4 @@
 export class UIComponent {
-    /**
-     * @param {string} tag - The HTML tag (e.g., 'div', 'button')
-     * @param {Object} attributes - Object containing classNames, ids, or inner text
-     * @param {Array} children - Array of UIComponent instances to nest inside this one
-     */
     constructor(tag, attributes = {}, children = []) {
         this.element = document.createElement(tag);
 
