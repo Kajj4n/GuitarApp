@@ -19,7 +19,8 @@ export class AudioEngine {
 
     // Step 1: Request Microphone Access and Setup Audio
     async init() {
-        if (this.isRunning) return; // Don't initialize twice
+        // Don't initialize twice
+        if (this.isRunning) return; 
         
         try {
             // Create the browser's audio context
@@ -64,7 +65,6 @@ export class AudioEngine {
         
         // Filter out jumps in frequency
         if (pitch < this.minFreq || pitch > this.maxFreq) return -1;
-        
         return pitch;
     }
 
@@ -76,7 +76,7 @@ export class AudioEngine {
         });
     }
 
-    // Step 4: Calculate exactly how out of tune we are
+    // Step 4: Calculate exactly how out of tune
     getCents(detected, target) {
         // 1200 cents = 1 Octave. 100 cents = 1 semitone (half-step).
         return Math.floor(1200 * Math.log2(detected / target));
@@ -114,7 +114,8 @@ export class AudioEngine {
         let d = 0; while (c[d] > c[d + 1]) d++;
         let maxval = -1, maxpos = -1;
         for (let i = d; i < buffer.length; i++) {
-            if (c[i] > maxval) { maxval = c[i]; maxpos = i; } // maxpos is the repeating distance
+            // maxpos is the repeating distance
+            if (c[i] > maxval) { maxval = c[i]; maxpos = i; }
         }
         
         // 5. Convert that repeating distance into Hertz (Cycles per Second)
@@ -123,7 +124,8 @@ export class AudioEngine {
 
     // --- Audio Playback Logic ---
     playStringAudio(note) {
-        this.stopAllAudio(); // Stop any currently ringing strings
+        // Stop any currently ringing strings
+        this.stopAllAudio();
         
         // Build the file path and play the audio
         this.currentAudio = new Audio(`./audio/${note}.mp3`);

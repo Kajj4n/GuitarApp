@@ -6,8 +6,10 @@ export class GuitarSection extends UIComponent {
         // Call parent constructor to create the main wrapper div
         super('div', { className: 'guitar-section' });
 
-        this.onStringClick = onStringClick; // Callback for when a string is clicked
-        this.stringButtons = []; // Keep track of buttons to manage 'active' states
+        // Callback for when a string is clicked
+        this.onStringClick = onStringClick; 
+         // Keep track of buttons to manage 'active' states
+        this.stringButtons = [];
 
         this.buildSection();
     }

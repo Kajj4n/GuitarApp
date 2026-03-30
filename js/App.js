@@ -11,12 +11,12 @@ class App {
         
         // State
         this.selectedMode = 'Auto'; 
-        this.activeTuning = []; // Populated by JSON
+        this.activeTuning = [];
         this.tuningsData = [];
 
         // Engines
         this.audio = new AudioEngine();
-        this.meter = null; // Will be set after mount
+        this.meter = null;
 
         this.init();
     }
@@ -28,7 +28,7 @@ class App {
         // Start the animation loop
         this.update();
 
-        // One-time listener to start AudioContext (browser requirement)
+        //Start AudioContext
         document.body.addEventListener('click', () => this.audio.init(), { once: true });
     }
 
@@ -59,14 +59,15 @@ class App {
         }
 
         // Update the Physical Guitar Strings
-        // Your old mapping: [2, 1, 0, 3, 4, 5] matches the visual order of strings
         const mapping = [2, 1, 0, 3, 4, 5]; 
         const stringButtons = document.querySelectorAll('.string-btn');
         
         stringButtons.forEach((btn, i) => {
             const tuningIndex = mapping[i];
             const noteName = this.activeTuning[tuningIndex].note;
-            btn.textContent = noteName.replace(/[0-9]/g, ''); // Remove the octave number (E2 -> E)
+
+            // Remove the octave number (E2 -> E)
+            btn.textContent = noteName.replace(/[0-9]/g, ''); 
             btn.dataset.note = noteName;
             btn.classList.remove('active');
         });
@@ -87,7 +88,7 @@ class App {
             'close-tune-btn'         // Exact ID for button
         );
 
-        // 2. Initialize the Guitar Section first
+        // 2. Initialize the Guitar Section
         this.guitarSection = new GuitarSection((note) => {
             if (this.selectedMode === note) {
                 this.selectedMode = 'Auto';
@@ -113,7 +114,7 @@ class App {
         // Mount everything
         topNav.mount(this.appContainer);
         
-        // Mount Tuner UI...
+        // Mount Tuner UI
         const tunerDisplay = new UIComponent('div', { className: 'tuner-nav', innerHTML: `
             <div class="note-display-wrapper">
                 <div class="note-row">
@@ -149,7 +150,7 @@ class App {
             if (targetNoteObj) {
                 let cents = this.audio.getCents(pitch, targetNoteObj.freq);
                 
-                // FIX: Clamp the cents so the needle stays on the meter!
+                // Clamp the cents so the needle stays on the meter
                 cents = Math.max(-50, Math.min(50, cents));
 
                 this.uiNote.textContent = detectedNoteObj.note.replace(/[0-9]/g, '');
@@ -167,7 +168,8 @@ class App {
 
     renderTuningList() {
         const container = this.tuningMenu.getContentContainer();
-        container.innerHTML = ''; // Clear old list
+        // Clear old list
+        container.innerHTML = '';
 
         this.tuningsData.forEach(t => {
             const item = document.createElement('div');

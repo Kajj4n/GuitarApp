@@ -2,10 +2,10 @@ export class MeterCanvas {
     constructor(canvasElement) {
         this.canvas = canvasElement;
         this.ctx = this.canvas.getContext('2d');
-        this.currentCents = 0;    // The smoothed value 
-        this.targetCents = 0;     // The value from the engine
+        this.currentCents = 0;   
+        this.targetCents = 0;    
         this.isRunning = false;
-        this.lerpFactor = 0.15;   // (smoothness)
+        this.lerpFactor = 0.15;
     }
 
     updateCents(cents, isRunning) {
