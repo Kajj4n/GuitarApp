@@ -1,4 +1,4 @@
-const CACHE_NAME = "guitar-v57"; 
+const CACHE_NAME = "guitar-v58"; 
 
 const ASSETS = [
     "./",
